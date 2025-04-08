@@ -13,6 +13,14 @@ serde = { version = "1", features = ["derive"] }
 console_error_panic_hook = "0.1.7"
 base64 = "0.22"
 sycamore-router = "0.9"
+urlencoding = "2.1.3"
 
 [workspace]
 members = ["src-tauri"]
+
+
+[profile.release]
+panic = 'abort'
+codegen-units = 1
+opt-level = 's'
+lto = true

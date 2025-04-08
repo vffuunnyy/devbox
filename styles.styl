@@ -1,0 +1,503 @@
+// Переменные цветов в пурпурной гамме - темные и насыщенные
+$primary-color = #654171
+$primary-light = #dec1e8
+$primary-dark = #361d43
+$secondary-color = #a0a0a0
+$text-color = #ffffff
+$text-secondary = #c0c0c0
+$background-color = #0f0f18
+$card-background = #161625
+$hover-color = #9932CC
+$border-color = #252538
+$shadow-color = rgba(0, 0, 0, 0.6)
+$input-bg = #0c0c14
+$focus-color = #9c6bb2
+
+// Базовые стили
+*
+  margin 0
+  padding 0
+  box-sizing border-box
+
+:root
+  font-family "JetBrains Mono", sans-serif
+  font-size 16px
+  line-height 24px
+  font-weight 400
+  color $text-color
+  background-color $background-color
+  font-synthesis none
+  text-rendering optimizeLegibility
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  -webkit-text-size-adjust 100%
+
+body
+  width 100%
+  min-height 100vh
+
+// Контейнер приложения
+.app-container
+  display flex
+  flex-direction column
+  min-height 100vh
+
+// Навбар в стиле IDE вкладок
+.navbar
+  display flex
+  background-color $card-background
+  box-shadow 0 3px 6px $shadow-color
+  overflow-x auto
+  border-bottom 1px solid $border-color
+
+  &::-webkit-scrollbar
+    height 3px
+    
+  &::-webkit-scrollbar-thumb
+    background-color $primary-light
+    border-radius 3px
+
+.navbar-tabs
+  display flex
+  list-style none
+  
+  li
+    position relative
+    
+    a
+      display block
+      padding 12px 24px
+      color $text-color
+      text-decoration none
+      border-right 1px solid $border-color
+      transition all 0.2s ease
+      white-space nowrap
+      
+      &:hover
+        background-color $primary-dark
+        
+      &.active
+        background-color $primary-color
+        color white
+        
+        &::after
+          content ""
+          position absolute
+          bottom 0
+          left 0
+          width 100%
+          height 3px
+          background-color $hover-color
+
+// Основной контент
+.content
+  flex 1
+  padding 24px
+  overflow-y auto
+
+// Логотип и заголовок
+.header
+  text-align center
+  margin-bottom 32px
+  
+  .logo
+    height 100px
+    margin-bottom 16px
+    border-radius 12px
+    
+  h1
+    color $primary-light
+    font-size 32px
+    margin-bottom 16px
+    
+  p
+    color $secondary-color
+    opacity 0.9
+
+// Поиск
+.search-container
+  display flex
+  justify-content center
+  margin-bottom 32px
+  
+  .search-box
+    position relative
+    width 100%
+    max-width 480px
+    
+    input
+      width 100%
+      padding 12px 16px
+      background-color $card-background
+      border 1px solid $border-color
+      border-radius 6px
+      color $text-color
+      
+      &:focus
+        outline none
+        border-color $primary-light
+    
+    .shortcut
+      position absolute
+      right 12px
+      top 50%
+      transform translateY(-50%)
+      background-color rgba(255, 255, 255, 0.1)
+      padding 2px 6px
+      border-radius 4px
+      font-size 12px
+      color rgba(255, 255, 255, 0.6)
+
+// Стили для сворачивающихся групп инструментов
+.tool-groups
+  display flex
+  flex-direction column
+  gap 24px
+
+.tool-group
+  background-color $card-background
+  border-radius 8px
+  overflow hidden
+  box-shadow 0 4px 12px $shadow-color
+  margin-bottom 8px
+  
+  &-header
+    display flex
+    justify-content space-between
+    align-items center
+    padding 16px 20px
+    background-color $primary-dark
+    cursor pointer
+    z-index 2
+    position relative
+    
+    h2
+      color $text-color
+      font-size 18px
+      font-weight 600
+    
+    .toggle-icon
+      transition transform 0.3s ease
+      
+      &.open
+        transform rotate(180deg)
+  
+  &-content
+    position relative
+    height auto
+    max-height 0
+    overflow hidden
+    transition all 0.5s ease
+    background-color $card-background
+    opacity 0
+    visibility hidden
+    transform-origin top
+    transform scaleY(0.8)
+    padding-top 0
+    padding-bottom 0
+    padding-left 16px
+    padding-right 16px
+    
+    &.open
+      max-height 2000px
+      opacity 1
+      visibility visible
+      transform scaleY(1)
+      padding 16px
+
+// Карточки инструментов
+.tools-grid
+  display grid
+  grid-template-columns repeat(auto-fill, minmax(280px, 1fr))
+  gap 16px
+
+.tool-card
+  display block
+  position relative
+  text-decoration none
+  background-color $background-color
+  border-radius 8px
+  padding 20px
+  transition all 0.3s ease
+  border 1px solid $border-color
+  box-shadow 0 4px 8px $shadow-color
+  height 100%
+  cursor pointer
+  
+  &:hover
+    transform translateY(-5px)
+    box-shadow 0 8px 16px $shadow-color
+    border-color $primary-light
+  
+  h3
+    color $primary-light
+    font-size 18px
+    margin-bottom 12px
+  
+  p
+    color $text-secondary
+    opacity 0.9
+    font-size 14px
+    margin-bottom 0
+
+// Формы и элементы ввода
+// 1. Textarea
+textarea
+  width 100%
+  min-height 150px
+  background-color $input-bg
+  border 1px solid $border-color
+  border-radius 8px
+  color $text-color
+  padding 16px
+  font-family inherit
+  font-size 16px
+  resize vertical
+  transition border-color 0.2s ease, box-shadow 0.2s ease
+  
+  &:focus
+    outline none
+    border-color $primary-light
+    box-shadow 0 0 0 2px rgba($primary-light, 0.2)
+  
+  &::placeholder
+    color rgba($text-secondary, 0.5)
+
+// 2. Input
+input
+  background-color $input-bg
+  border 1px solid $border-color
+  border-radius 6px
+  color $text-color
+  padding 12px 16px
+  font-family inherit
+  font-size 16px
+  transition border-color 0.2s ease, box-shadow 0.2s ease
+  
+  &:focus
+    outline none
+    border-color $primary-light
+    box-shadow 0 0 0 2px rgba($primary-light, 0.2)
+  
+  &::placeholder
+    color rgba($text-secondary, 0.5)
+
+// 3. Button
+button
+  background-color $primary-color
+  border none
+  border-radius 6px
+  color $text-color
+  padding 12px 24px
+  font-weight 500
+  cursor pointer
+  transition background-color 0.2s ease, transform 0.1s ease
+  box-shadow 0 2px 4px rgba(0, 0, 0, 0.2)
+  height 48px
+  display flex
+  align-items center
+  justify-content center
+  
+  &:hover
+    background-color lighten($primary-color, 10%)
+  
+  &:active
+    transform translateY(1px)
+    box-shadow 0 1px 2px rgba(0, 0, 0, 0.2)
+  
+  &:disabled
+    background-color $border-color
+    cursor not-allowed
+    opacity 0.7
+
+// 4. Переключатели (Tabs)
+.tabs-container
+  width 100%
+  max-width 300px
+  border-radius 8px
+  overflow hidden
+  background-color $card-background
+  display flex
+  position relative
+  height 48px
+  
+.tabs
+  display flex
+  width 100%
+  background-color $card-background
+  border 1px solid $border-color
+  border-radius 8px
+  overflow hidden
+  height 100%
+  
+  .tab
+    flex 1
+    text-align center
+    padding 12px 20px
+    background-color transparent
+    color $text-color
+    cursor pointer
+    transition background-color 0.2s ease
+    position relative
+    z-index 1
+    display flex
+    align-items center
+    justify-content center
+    
+    &.active
+      background-color $primary-color
+      color white
+      font-weight 500
+    
+    &:hover:not(.active)
+      background-color rgba($primary-dark, 0.5)
+
+// 5. Выпадающие списки (Select)
+select
+  appearance none
+  background-color $input-bg
+  border 1px solid $border-color
+  border-radius 6px
+  color $text-color
+  padding 12px 16px
+  padding-right 32px
+  font-family inherit
+  font-size 16px
+  cursor pointer
+  background-repeat no-repeat
+  background-position right 10px center
+  background-size 16px
+  
+  &:focus
+    outline none
+    border-color $primary-light
+    box-shadow 0 0 0 2px rgba($primary-light, 0.2)
+  
+  option
+    background-color $input-bg
+    color $text-color
+    padding 8px
+
+// Кастомный выпадающий список
+.custom-select
+  position relative
+  width 100%
+  max-width 300px
+  z-index 100
+  height 48px
+  
+  &-selected
+    width 100%
+    height 100%
+    background-color $input-bg
+    border 1px solid $border-color
+    border-radius 6px
+    color $text-color
+    padding 0 16px
+    font-family inherit
+    cursor pointer
+    display flex
+    justify-content space-between
+    align-items center
+    transition all 0.2s ease
+    
+    &:hover
+      border-color $primary-light
+    
+    &:after
+      content ''
+      width 8px
+      height 8px
+      border-right 2px solid $text-secondary
+      border-bottom 2px solid $text-secondary
+      transform rotate(45deg)
+      transition transform 0.2s ease
+      margin-left 8px
+    
+    &.open
+      border-color $primary-light
+      border-radius 6px 6px 0 0
+      
+      &:after
+        transform rotate(-135deg)
+        margin-top 5px
+  
+  &-options
+    position absolute
+    top calc(100% - 1px)
+    left 0
+    right 0
+    background-color $card-background
+    border 1px solid $primary-light
+    border-top none
+    border-radius 0 0 6px 6px
+    max-height 0
+    overflow hidden
+    opacity 0
+    transition all 0.3s ease
+    z-index 10
+    box-shadow 0 4px 8px $shadow-color
+    
+    &.open
+      max-height 200px
+      opacity 1
+      overflow-y auto
+    
+    &::-webkit-scrollbar
+      width 6px
+    
+    &::-webkit-scrollbar-thumb
+      background-color $primary-color
+      border-radius 3px
+    
+    .option
+      padding 12px 16px
+      cursor pointer
+      transition background-color 0.2s ease
+      
+      &:hover
+        background-color $primary-dark
+      
+      &.selected
+        background-color rgba($primary-color, 0.3)
+        font-weight 500
+
+// Дополнительные стили компонентов
+.component-container
+  max-width 1200px
+  margin 0 auto
+  padding 20px
+
+.tool-section
+  background-color $card-background
+  border-radius 8px
+  padding 24px
+  box-shadow 0 4px 12px $shadow-color
+
+.form-group
+  margin-bottom 20px
+  
+  label
+    display block
+    margin-bottom 8px
+    color $text-secondary
+    font-weight 500
+
+.form-row
+  display flex
+  gap 16px
+  margin-top 20px
+  margin-bottom 20px
+  align-items center
+  
+  @media (max-width: 768px)
+    flex-direction column
+
+.full-width
+	width: 100%
+// Утилиты
+.mt-4
+  margin-top 16px
+
+.mb-4
+  margin-bottom 16px

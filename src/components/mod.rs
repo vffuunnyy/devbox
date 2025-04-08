@@ -1,2 +1,3 @@
-pub mod converters;
-pub mod hashes;
+pub mod coders;
+pub mod hashers;
+pub mod main;

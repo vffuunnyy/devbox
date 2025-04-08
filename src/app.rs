@@ -1,45 +1,63 @@
 use sycamore::prelude::*;
 use sycamore_router::{HistoryIntegration, Route, Router};
 
-// Импортируем наши компоненты
 use crate::components;
 
-// Определяем маршруты приложения
 #[derive(Route, Debug, Clone, Copy, PartialEq, Eq)]
 enum AppRoutes {
     #[to("/")]
     Index,
-    #[to("/base64")]
-    Base64Converter,
-    // Добавьте сюда другие маршруты для Base58, MD5, SHA и т.д.
+
+    #[to("/coders")]
+    Coders,
+
+    #[to("/query-json")]
+    QueryJsonCoder,
+
+    #[to("/hashers")]
+    Hashers,
+
     #[not_found]
     NotFound,
 }
 
-// Главный компонент приложения
+
 #[component]
 pub fn App() -> View {
     view! {
-        // Используем HistoryIntegration для роутинга на основе истории браузера
         Router(
             integration=HistoryIntegration::new(),
             view=|route: ReadSignal<AppRoutes>| {
             view! {
                 div(class="app-container") {
-                    nav(class="sidebar-menu") { // Меню навигации
-                        ul {
-                            li { a(href="/", rel="external") { "Главная" } }
-                            li { a(href="/base64", rel="external") { "Base64" } }
-                            // Добавьте ссылки для других компонентов здесь
+                    nav(class="navbar") {
+                        ul(class="navbar-tabs") {
+                            li { 
+                                a(href="/", rel="external", class=if matches!(route.get(), AppRoutes::Index) { "active" } else { "" }) { 
+                                    "Home" 
+                                }
+                            }
+                            li { 
+                                a(href="/coders", rel="external", class=if matches!(route.get(), AppRoutes::Coders) { "active" } else { "" }) { 
+                                    "Coders" 
+                                }
+                            }
+                            li { 
+                                a(href="/hashers", rel="external", class=if matches!(route.get(), AppRoutes::Hashers) { "active" } else { "" }) { 
+                                    "Hashers" 
+                                }
+                            }
                         }
                     }
-                    main(class="content") { // Основное содержимое, где будут рендериться компоненты
-                        // Отображаем компонент в зависимости от текущего маршрута
+                    main(class="content") {
                         (match route.get() {
-                            AppRoutes::Index => view! { p { "Добро пожаловать в DevBox! Выберите инструмент из меню." } },
-                            AppRoutes::Base64Converter => view! { components::converters::base64::Base64 {} },
+                            AppRoutes::Index => view! { components::main::Main {} },
+                            AppRoutes::Coders => view! { components::coders::coders::Coders {} },
+                            // AppRoutes::QueryJsonCoder => view! { components::coders::query_json::QueryJson {} },
+                            // AppRoutes::Hashers => view! { components::hashers::hashers::Hashers {} },
+                            AppRoutes::QueryJsonCoder => view! { p { "WORK IN PROGRESS" } },
+                            AppRoutes::Hashers => view! { p { "WORK IN PROGRESS" } },
                             AppRoutes::NotFound => view! { p { "Страница не найдена" } },
-                            // Добавьте обработку других маршрутов
                         })
                     }
                 }
